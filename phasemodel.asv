@@ -1,0 +1,80 @@
+% target phase model
+
+
+% where psi1 = theta1 - thetaN + Dtau
+%   and psi2 = theta2 - thetaN
+Dtaus_pm = linspace(0,2.5,1000);
+
+M=4;  % number of oscillators
+epsilon = 1e-3; % coupling strenght ("K")
+
+tspan = [0 1000];  % time 10000 for splay, 1000 for in-phase
+rng(1);
+phases1 = zeros(1,M);                % full sync
+%phases1 = [0, pi];    % splay M=2
+%phases1 = [0, 2*pi/3, 4*pi/3]; % splay M=3
+%phases1 = [0,pi/2,pi,3*pi/2];   % splay M=4
+phases0 = phases1 + 0.01*(rand(1,M)-0.5);  % close to -phases1- (fx full sync 0,0,0)
+
+deg = 1;
+
+rcs= zeros(size(Dtaus_pm)); % storing slopes
+
+figure; 
+hold on;
+for ind = 1:length(Dtaus_pm)
+  Dtau = Dtaus_pm(ind);
+  [t,phases] = ode45(@(t,phases) targetphasemodel(phases,t,M,epsilon,Dtau), tspan, phases0);
+  R = abs( 1/M * sum(exp(1i*deg*phases),2));
+  log1_R = log(1-R);
+  Polf = polyfit(epsilon*t,log1_R,1);
+  %plot(epsilon*t,log1_R,'x','linewidth',3,'Color',getcolours(4+ind));
+  %plot(epsilon*t,Polf(1)*epsilon*t + Polf(2),'Linewidth',3,'Color',getcolours(4+ind));
+  rcs(ind) = Polf(1);
+end
+
+
+%%
+figure
+plot(Dtaus_pm,rcs,":","LineWidth",3,'Color',getcolours(3))
+hold on;
+
+for ind1 = 1:4
+  ind = ind1-1)*
+  plot(Dtaus(ind),rcs(ind),"o","Markersize",8,"LineWidth",3,'Color',getcolours(4+ind),'Markerfacecolor',getcolours(4+ind)); hold on;
+end
+
+
+%%
+title("In-phase bifurcation")
+%title("Splay bifurcation")
+
+%%
+xlabel("\Delta\tau")
+ylabel("slope of $log(1-R_"+num2str(deg)+")$",'Interpreter','latex');
+
+%%
+xline(1.5708,':','$\Delta\tau \approx 1.5708$','Interpreter','latex');
+
+%%
+yline(0)
+
+function out = H(psi1,psi2) 
+    out = sin(psi1) + 0.5*sin(2*psi1);% + cos(psi1 + psi2);
+end
+
+function dphasesdt = targetphasemodel(phases,t,M,epsilon,Dtau)
+    %xi1 = xi(1); xi2 = xi(2); xi3 = xi(3); xi4 = xi(4); xi5 = xi(5);
+    %chi1 = chi(1); chi2 = chi(2); chi3 = chi(3); chi4 = chi(4); chi5 = chi(5);
+    dphasesdt = zeros(M,1);
+    for j = 1:M
+        dphasesdt(j) = epsilon / (M*M) * rhs(j,phases,Dtau); 
+    end
+end
+
+
+function out = rhs(j,phases,Dtau)
+    meshphases = meshgrid(phases);
+    meshphases_T = meshphases.';
+    out = sum( H( meshphases_T - phases(j) + Dtau, meshphases - phases(j) ) ,'all' );
+end
