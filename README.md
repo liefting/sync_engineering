@@ -1,6 +1,8 @@
 # sync_engineering
-Running the main.m script will produce a .txt file with order parameter for simulations of coupled Brusselators.
-Some of the parameters that can be changed:
+Running the ```main.m``` script will produce a ```.txt``` file in ```/data/``` with order parameters calculated after simulations of coupled Brusselators.
+Running the ```load_data_and_plot.m``` script loads data from ```/data/[name].txt``` and produces (bifurcation) plots.
+
+Some of the parameters that can be changed within ```main.m```:
 - xis and chis (parameters determining the target phase model)
      (in particular: xi3=1 for nonpairwise model from thesis, and xi3=0 for the pairwise model from the thesis)
 - Dtaus (a range of overall delay parameters)
