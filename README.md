@@ -16,26 +16,23 @@ plot Dtau versus log(1-R_k).
 
 Below is a list of the scripts and function it calls/data it loads.
 
-main.m
---->> load_isochrones.m
-    	--->> 	BrusselatorFourierAverages.dat
-    		      FHNFourierAverages.dat
-    	        find_prc.m
-    		
-    	optimisation.m
-    	---> 	get_h_functions.m
-    		    vector_to_taus_and_ks.m
-    	
-    	simulations.m
-    	---> 	oscillators.m
-    		    --->  brus.m
-    			        fitzhughnaguma.m
-    	
-    	find_order_parameter.m
+	main.m
+	---> load_isochrones.m
+	    	---> 	BrusselatorFourierAverages.dat
+	    		FHNFourierAverages.dat
+	    	        find_prc.m	
+	    	optimisation.m
+	    	---> 	get_h_functions.m
+	    		vector_to_taus_and_ks.m
+	    	simulations.m
+	    	---> 	oscillators.m
+	    		--->  	brus.m
+	    			fitzhughnagumo.m
+	    	find_order_parameter.m
 	
 other scripts that can be called seperately after running (part of) main.m:
 
-plot_resulting_feedback.m  	(after running optimisation)
-load_data_and_plot.m		(after running all of main)
---->> [name].txt file in data with name as defined in script (.txt files contain order parameter data)
-	    getcolours.m
+	plot_resulting_feedback.m  	(after running optimisation)
+	load_data_and_plot.m		(after running all of main)
+	---> 	[name].txt file in /data/
+		getcolours.m
