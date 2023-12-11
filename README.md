@@ -23,17 +23,17 @@ Below is a list of the scripts and function it calls/data it loads.
 
 	main.m
 	---> load_isochrones.m
-	    	---> 	BrusselatorFourierAverages.dat
-	    		FHNFourierAverages.dat
-	    	        find_prc.m	
-	    	optimisation.m
-	    	---> 	get_h_functions.m
-	    		vector_to_taus_and_ks.m
-	    	simulations.m
-	    	---> 	oscillators.m
-	    		--->  	brus.m
-	    			fitzhughnagumo.m
-	    	find_order_parameter.m
+	---> 	BrusselatorFourierAverages.dat
+		FHNFourierAverages.dat
+		find_prc.m	
+	optimisation.m
+	---> 	get_h_functions.m
+		vector_to_taus_and_ks.m
+	simulations.m
+	---> 	oscillators.m
+		--->  	brus.m
+			fitzhughnagumo.m
+	find_order_parameter.m
 	
 other scripts that can be called seperately after running (part of) ```main.m```:
 
